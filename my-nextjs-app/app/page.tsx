@@ -10,7 +10,9 @@ export default function CurrencyConverter() {
   // Conversion rates based on your data
   const USD_TO_MYR = 413 / 100;
   const USD_TO_IQD = 135000 / 100;
+
   const MYR_TO_IQD_RATE = USD_TO_IQD / USD_TO_MYR;
+  const IQD_TO_MYRRATE = 1 / MYR_TO_IQD_RATE;
 
   const convertToIQD = (myrAmount: number): string => {
     if (!myrAmount || isNaN(myrAmount)) return '';
@@ -21,18 +23,42 @@ export default function CurrencyConverter() {
     });
   };
 
+  const convertToMYR = (iqdAmount: number): string => {
+    if (!iqdAmount || isNaN(iqdAmount)) return '';
+    const myrAmount = iqdAmount * IQD_TO_MYRRATE;
+    return myrAmount.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2
+    });
+  };
+
   const handleMYRChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setMyr(value);
-    
+
     if (value === '') {
       setIqd('');
       return;
     }
-    
+
     const numValue = parseFloat(value);
     if (!isNaN(numValue)) {
       setIqd(convertToIQD(numValue));
+    }
+  };
+
+  const handleIQDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setIqd(value);
+
+    if (value === '') {
+      setMyr('');
+      return;
+    }
+
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      setMyr(convertToMYR(numValue));
     }
   };
 
@@ -57,9 +83,10 @@ export default function CurrencyConverter() {
           marginBottom: '30px',
           fontSize: '24px'
         }}>
-          🇲🇾 RM to IQD 🇮🇶
+          🇲🇾 RM ⇄ IQD 🇮🇶
         </h1>
-        
+
+        {/* RM INPUT */}
         <div style={{ marginBottom: '25px' }}>
           <label style={{
             display: 'block',
@@ -79,8 +106,7 @@ export default function CurrencyConverter() {
               padding: '12px',
               border: '2px solid #ddd',
               borderRadius: '8px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
+              fontSize: '16px'
             }}
           />
         </div>
@@ -91,9 +117,10 @@ export default function CurrencyConverter() {
           fontSize: '20px',
           color: '#667eea'
         }}>
-          ↓
+          ⇅
         </div>
 
+        {/* IQD INPUT */}
         <div style={{ marginBottom: '25px' }}>
           <label style={{
             display: 'block',
@@ -104,18 +131,16 @@ export default function CurrencyConverter() {
             Iraqi Dinar (IQD):
           </label>
           <input
-            type="text"
+            type="number"
             value={iqd}
-            readOnly
-            placeholder="IQD amount will appear here"
+            onChange={handleIQDChange}
+            placeholder="Enter amount in IQD"
             style={{
               width: '100%',
               padding: '12px',
               border: '2px solid #ddd',
               borderRadius: '8px',
-              fontSize: '16px',
-              backgroundColor: '#f9f9f9',
-              boxSizing: 'border-box'
+              fontSize: '16px'
             }}
           />
         </div>
@@ -128,8 +153,9 @@ export default function CurrencyConverter() {
           fontSize: '12px',
           color: '#666'
         }}>
-          <strong>Exchange Rate:</strong><br />
-          1 MYR = {MYR_TO_IQD_RATE.toFixed(2)} IQD<br />
+          <strong>Exchange Rates:</strong><br/>
+          1 MYR = {MYR_TO_IQD_RATE.toFixed(2)} IQD <br/>
+          1 IQD = {IQD_TO_MYRRATE.toFixed(6)} MYR <br/><br/>
           <em>Based on: 100 USD = 413 MYR = 135,000 IQD</em>
         </div>
       </div>
