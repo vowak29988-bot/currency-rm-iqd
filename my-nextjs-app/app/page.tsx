@@ -7,58 +7,48 @@ export default function CurrencyConverter() {
   const [myr, setMyr] = useState<string>('');
   const [iqd, setIqd] = useState<string>('');
   
-  // Conversion rates based on your data
   const USD_TO_MYR = 413 / 100;
   const USD_TO_IQD = 135000 / 100;
 
   const MYR_TO_IQD_RATE = USD_TO_IQD / USD_TO_MYR;
-  const IQD_TO_MYRRATE = 1 / MYR_TO_IQD_RATE;
+  const IQD_TO_MYR_RATE = 1 / MYR_TO_IQD_RATE;
 
-  const convertToIQD = (myrAmount: number): string => {
-    if (!myrAmount || isNaN(myrAmount)) return '';
-    const iqdAmount = myrAmount * MYR_TO_IQD_RATE;
-    return iqdAmount.toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-      minimumFractionDigits: 2
-    });
-  };
-
-  const convertToMYR = (iqdAmount: number): string => {
-    if (!iqdAmount || isNaN(iqdAmount)) return '';
-    const myrAmount = iqdAmount * IQD_TO_MYRRATE;
-    return myrAmount.toLocaleString('en-US', {
+  const formatNumber = (num: number): string => {
+    return num.toLocaleString("en-US", {
       maximumFractionDigits: 2,
       minimumFractionDigits: 2
     });
   };
 
   const handleMYRChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setMyr(value);
+    const raw = e.target.value;
+    setMyr(raw);
 
-    if (value === '') {
-      setIqd('');
+    if (raw === "") {
+      setIqd("");
       return;
     }
 
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue)) {
-      setIqd(convertToIQD(numValue));
+    const num = Number(raw);
+    if (!isNaN(num)) {
+      const converted = num * MYR_TO_IQD_RATE;
+      setIqd(formatNumber(converted));
     }
   };
 
   const handleIQDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setIqd(value);
+    const raw = e.target.value;
+    setIqd(raw);
 
-    if (value === '') {
-      setMyr('');
+    if (raw === "") {
+      setMyr("");
       return;
     }
 
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue)) {
-      setMyr(convertToMYR(numValue));
+    const num = Number(raw);
+    if (!isNaN(num)) {
+      const converted = num * IQD_TO_MYR_RATE;
+      setMyr(formatNumber(converted));
     }
   };
 
@@ -100,13 +90,14 @@ export default function CurrencyConverter() {
             type="number"
             value={myr}
             onChange={handleMYRChange}
-            placeholder="Enter amount in RM"
+            placeholder="Enter RM"
             style={{
               width: '100%',
               padding: '12px',
               border: '2px solid #ddd',
               borderRadius: '8px',
-              fontSize: '16px'
+              fontSize: '16px',
+              color: '#764ba2'
             }}
           />
         </div>
@@ -134,13 +125,14 @@ export default function CurrencyConverter() {
             type="number"
             value={iqd}
             onChange={handleIQDChange}
-            placeholder="Enter amount in IQD"
+            placeholder="Enter IQD"
             style={{
               width: '100%',
               padding: '12px',
               border: '2px solid #ddd',
               borderRadius: '8px',
-              fontSize: '16px'
+              fontSize: '16px',
+              color: '#764ba2'
             }}
           />
         </div>
@@ -155,7 +147,7 @@ export default function CurrencyConverter() {
         }}>
           <strong>Exchange Rates:</strong><br/>
           1 MYR = {MYR_TO_IQD_RATE.toFixed(2)} IQD <br/>
-          1 IQD = {IQD_TO_MYRRATE.toFixed(6)} MYR <br/><br/>
+          1 IQD = {IQD_TO_MYR_RATE.toFixed(6)} MYR <br/><br/>
           <em>Based on: 100 USD = 413 MYR = 135,000 IQD</em>
         </div>
       </div>
