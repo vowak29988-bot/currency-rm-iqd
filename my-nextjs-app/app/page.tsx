@@ -1,3 +1,5 @@
+"use client"
+
 // app.js - Complete Next.js currency converter
 import { useState } from 'react';
 
