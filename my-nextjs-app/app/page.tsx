@@ -1,3 +1,4 @@
+// @ts-ignore
 "use client"
 
 // app.js - Complete Next.js currency converter
