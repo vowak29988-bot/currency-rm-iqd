@@ -1,19 +1,18 @@
 // @ts-ignore
 "use client"
 
-// app.js - Complete Next.js currency converter
 import { useState } from 'react';
 
 export default function CurrencyConverter() {
-  const [myr, setMyr] = useState('');
-  const [iqd, setIqd] = useState('');
+  const [myr, setMyr] = useState<string>('');
+  const [iqd, setIqd] = useState<string>('');
   
   // Conversion rates based on your data
   const USD_TO_MYR = 413 / 100;
   const USD_TO_IQD = 135000 / 100;
   const MYR_TO_IQD_RATE = USD_TO_IQD / USD_TO_MYR;
 
-  const convertToIQD = (myrAmount) => {
+  const convertToIQD = (myrAmount: number): string => {
     if (!myrAmount || isNaN(myrAmount)) return '';
     const iqdAmount = myrAmount * MYR_TO_IQD_RATE;
     return iqdAmount.toLocaleString('en-US', {
@@ -22,7 +21,7 @@ export default function CurrencyConverter() {
     });
   };
 
-  const handleMYRChange = (e) => {
+  const handleMYRChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setMyr(value);
     
@@ -85,7 +84,7 @@ export default function CurrencyConverter() {
             }}
           />
         </div>
-        
+
         <div style={{
           textAlign: 'center',
           margin: '20px 0',
@@ -94,7 +93,7 @@ export default function CurrencyConverter() {
         }}>
           ↓
         </div>
-        
+
         <div style={{ marginBottom: '25px' }}>
           <label style={{
             display: 'block',
@@ -120,7 +119,7 @@ export default function CurrencyConverter() {
             }}
           />
         </div>
-        
+
         <div style={{
           background: '#f0f8ff',
           padding: '15px',
