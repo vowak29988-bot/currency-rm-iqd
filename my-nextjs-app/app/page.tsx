@@ -8,9 +8,9 @@ export default function CurrencyConverter() {
   const [iqd, setIqd] = useState('');
   
   // Conversion rates based on your data
-  const USD_TO_MYR = 413 / 100; // 4.13 MYR per 1 USD
-  const USD_TO_IQD = 135000 / 100; // 1350 IQD per 1 USD
-  const MYR_TO_IQD_RATE = USD_TO_IQD / USD_TO_MYR; // Approximately 326.88
+  const USD_TO_MYR = 413 / 100;
+  const USD_TO_IQD = 135000 / 100;
+  const MYR_TO_IQD_RATE = USD_TO_IQD / USD_TO_MYR;
 
   const convertToIQD = (myrAmount) => {
     if (!myrAmount || isNaN(myrAmount)) return '';
